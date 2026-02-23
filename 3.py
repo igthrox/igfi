@@ -1254,11 +1254,12 @@ async def limit_order_chaser(exchange, symbol, side, total_qty, state, filters, 
                             total_filled = filled_baseline + final_filled
                             total_value = value_baseline + final_value
                     audit_log(f"{exchange.upper()} 🎯 Target: {total_qty:.1f} coins (${target_usdt:.4f}) | Filled: {total_filled:.1f} | Remaining: {remaining_qty:.1f}")
+                    
+                    total_qty = new_total_qty
+                    remaining_qty = total_qty - total_filled
                     active_order_id = None
         
                 # Update targets
-                total_qty = new_total_qty
-                remaining_qty = total_qty - total_filled
                 qty_to_order = remaining_qty
                 actual_value_at_price = remaining_qty * current_price
                 delta = abs(actual_value_at_price - target_usdt)
